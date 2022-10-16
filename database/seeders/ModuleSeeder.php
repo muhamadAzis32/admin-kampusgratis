@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use App\Models\Subject;
+use App\Models\Major;
+use App\Models\MajorSubject;
 use App\Models\Modules;
 use App\Models\Document;
 use App\Models\Video;
@@ -31,18 +33,17 @@ class ModuleSeeder extends Seeder
             $randomDocument = rand(0,count($document)-1);
             return "{".$document[$randomDocument]->id."}";
         }
-        $sessions = Session::get(['id']);
-
-        for($i=0;$i<count($sessions);$i++){
-            $progress = $i/count($sessions) * 100;
-            echo $progress."%";
-            echo "\n";
-            Modules::create([
-                'id'=> Str::uuid(),
-                'session_id'=> $sessions[$i]->id,
-                'video_id'=>randomVideo(),
-                'document_id'=>randomDocument(),
-            ]);
+        $subject = MajorSubject::where("major_id","556251ac-3fa8-11ed-b878-0242ac120002")->get('subject_id');
+        foreach($subject as $x){
+            $session = Session::where('subject_id',$x->subject_id)->get(['id','session_no']);
+            foreach($session as $y){
+                Modules::create([
+                    'id'=> Str::uuid(),
+                    'session_id'=>$y->id,
+                    'video_id'=>randomVideo(),
+                    'document_id'=>randomDocument(),
+                ]);
+            }
         }
     }
 }

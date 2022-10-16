@@ -14,6 +14,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\KRSController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -129,7 +130,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/krs-edit/{id}', [KRSController::class, 'edit']);
     Route::post('/krs-update/{id}', [KRSController::class, 'update']);
 
-
+    //Quiz
+    Route::get('/quiz', [QuizController::class, 'index']);
+    Route::get('/quiz-create', [QuizController::class, 'create']);
+    Route::get('/quiz-refetch/{id}', [QuizController::class, 'getMajorSubject']);
+    Route::post('/quiz-store', [QuizController::class, 'store']);
+    Route::get('/quiz-destroy/{id}', [QuizController::class, 'destroy']);
+    Route::get('/quiz-edit/{id}', [QuizController::class, 'edit']);
+    Route::post('/quiz-update/{id}', [QuizController::class, 'update']);
 });
 // Tidak perlu login pun bisa di akses :)
 Route::get('/test', function () {

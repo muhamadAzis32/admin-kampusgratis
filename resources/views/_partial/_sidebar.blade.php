@@ -162,6 +162,12 @@
                             </a>
                         </li>
                         <li class="nav-item ">
+                            <a class="nav-link " href="/quiz">
+                                <span class="sidenav-mini-icon"> Q </span>
+                                <span class="sidenav-normal"> Quiz </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
                             <a class="nav-link " href="/document">
                                 <span class="sidenav-mini-icon"> D </span>
                                 <span class="sidenav-normal"> Documents </span>

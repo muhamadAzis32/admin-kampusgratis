@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Traits\Uuids;
 
-class Test extends Model
+class quizz extends Model
 {
     use HasFactory, Uuids;
 
-    protected $table = 'tests';
+    protected $table = 'quizzes';
     protected $primaryKey = "id";
     protected $fillable = [
         'is_approved',
