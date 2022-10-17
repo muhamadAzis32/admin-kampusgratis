@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StudentsController extends Controller
 {
@@ -64,18 +65,18 @@ class StudentsController extends Controller
     {
         try {
             $i = 0;
-            for($i=0;$i<count($request->major_id);$i++){
-                if($i==0){
-                    $major = "{".$request->major_id[$i];
+            for ($i = 0; $i < count($request->major_id); $i++) {
+                if ($i == 0) {
+                    $major = "{" . $request->major_id[$i];
                 }
-                if($i!==0){
-                    $major.=$request->major_id[$i];
+                if ($i !== 0) {
+                    $major .= $request->major_id[$i];
                 }
-                if($i<count($request->major_id)-1){
-                    $major .= "," ;
+                if ($i < count($request->major_id) - 1) {
+                    $major .= ",";
                 }
             }
-            $major.="}";
+            $major .= "}";
             Students::create([
                 'user_id' => $request->user_id,
                 'major_id' => $major,

@@ -164,7 +164,7 @@
                     method: "POST",
                     data: {
                         id: id
-                    }
+                    },
                     success: function(result) {
                         console.log(result)
                     }

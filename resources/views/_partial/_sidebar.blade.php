@@ -99,6 +99,12 @@
                                 <span class="sidenav-normal"> KRS </span>
                             </a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="nav-link " href="/certificate">
+                                <span class="sidenav-mini-icon"> C </span>
+                                <span class="sidenav-normal"> Certificate </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>

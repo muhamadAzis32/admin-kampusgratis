@@ -10,7 +10,7 @@ use Kreait\Firebase\Auth as FirebaseAuth;
 use Kreait\Firebase\Auth\SignInResult\SignInResult;
 use Kreait\Firebase\Exception\FirebaseException;
 use Google\Cloud\Firestore\FirestoreClient;
-use Session;
+use App\Models\Session;
 
 class DocumentController extends Controller
 {
@@ -42,7 +42,6 @@ class DocumentController extends Controller
             $data = Document::all();
 
             return view('admin.document.create');
-
         } catch (\Throwable $th) {
             return redirect('/document')->with('toast_error',  'Halaman tidak dapat di akses!');
         }
@@ -68,33 +67,33 @@ class DocumentController extends Controller
             $document   = app('firebase.firestore')->database()->collection('module_documents')->document($rawFileName);
             $firebase_storage_path = 'module_documents/';
             $name = $document->id();
-            $localfolder = public_path('firebase-temp-uploads') .'/';
+            $localfolder = public_path('firebase-temp-uploads') . '/';
             $extension = $file->getClientOriginalExtension();
 
-            if(!in_array($extension,['pdf','doc','docx'])){
+            if (!in_array($extension, ['pdf', 'doc', 'docx'])) {
                 return redirect('/document')->with('toast_error', 'Wrong File Format');
             }
 
-            $fileName = $name. '.' . $extension;
+            $fileName = $name . '.' . $extension;
 
             if ($file->move($localfolder, $fileName)) {
-                $uploadedfile = fopen($localfolder.$fileName, 'r');
+                $uploadedfile = fopen($localfolder . $fileName, 'r');
                 app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $fileName]);
                 unlink($localfolder . $fileName);
                 Session::flash('message', 'Succesfully Uploaded');
             }
-            $filePath = "module_documents/".$fileName;
+            $filePath = "module_documents/" . $fileName;
             $expiresAt = new \DateTime('12th December Next Year');
             $linkReference = app('firebase.storage')->getBucket()->object($filePath);
             if ($linkReference->exists()) {
                 $link = $linkReference->signedUrl($expiresAt);
-              } else {
+            } else {
                 $link = null;
             }
             Document::create([
                 'file' => $originalFileName,
-                'description' => $data->description,
-                'link'=> $link
+                'description' => $request->description,
+                'link' => $link
             ]);
 
             return redirect('/document')->with('toast_success', 'Data berhasil ditambah!');
