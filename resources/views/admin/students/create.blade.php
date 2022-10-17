@@ -59,7 +59,7 @@
 
                         <div class="form-group">
                             <label>Major</label>
-                            <select name="major_id" data-placeholder="Choose one thing" class="select2">
+                            <select name="major_id[]" data-placeholder="Choose Major" class="select2" multiple="multiple">
                                 @foreach ($major as $x)
                                     <option value="{{ $x->id }}">{{ $x->name }}</option>
                                 @endforeach
@@ -89,3 +89,10 @@
         </div>
     </div>
 @endsection
+
+<script>
+    $("select2").select2({
+    placeholder: "Select a state",
+    allowClear: true
+    });
+</script>

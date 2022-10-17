@@ -18,8 +18,11 @@ class SubjectController extends Controller
     {
         try {
             $data = Subject::all();
+            $lecturer = Lecturers::all();
+            $test = convertPsqlArray($data,"lecturer");
             return view('admin.subject.index', [
-                'data' => $data
+                'data' => $data,
+                'lecturer'=>$lecturer
             ]);
             // dd($data);
         } catch (\Throwable $th) {
@@ -52,14 +55,15 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->lecturers);
         try {
             Subject::create([
                 'name' => $request->name,
                 'number_of_sessions' => $request->number_of_sessions,
                 'level' => $request->level,
-                'lecturer' => $request->lecturer,
+                'lecturer' => $request->lecturers,
                 'degree' => $request->degree,
-                'credits' => $request->credits,
+                'credit' => $request->credits,
                 'description' => $request->description,
             ]);
             return redirect('/subjects')->with('toast_success', 'Data berhasil ditambah!');
@@ -103,7 +107,7 @@ class SubjectController extends Controller
                 'level'=> $request->level,
                 'lecturer'=> $request->lecturer,
                 'degree'=>$request->degree,
-                'credits'=>$request->credits,
+                'credit'=>$request->credits,
                 'description' => $request->description
             ]);
             return redirect('/subjects')->with('toast_success', 'Data berhasil diubah!');

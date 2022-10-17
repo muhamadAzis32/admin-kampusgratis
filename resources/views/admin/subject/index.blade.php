@@ -75,37 +75,47 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $x)
-                            <tr>
-                                <td class="text-sm font-weight-normal col-lg-1">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-sm font-weight-normal">
-                                    {{ $x->name }}
-                                </td>
-                                <td class="text-sm font-weight-normal">
-                                    {{ $x->credit }}
-                                </td>
-                                <td class="text-sm font-weight-normal">
-                                    {{ $x->level }}
-                                </td>
-                                <td class="text-sm font-weight-normal">
-                                    {{ $x->lecturer}}
-                                </td>
-                                <td class="text-sm font-weight-normal">
-                                    {{ $x->degree}}
-                                </td>
-                                <td class="text-sm col-lg-2">
-                                    <a href="/subjects-edit/{{ $x->id }}" class="mx-3" data-bs-toggle="tooltip"
-                                        data-bs-original-title="Edit">
-                                        <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="#" class="delete-subject" data-id="{{ $x->id }}"
-                                        type="button" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-                                        <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
+                                <tr>
+                                    <td class="text-sm font-weight-normal col-lg-1">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->name }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->credit }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->level }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        @foreach ($x->lecturer as $y)
+                                            @foreach ($lecturer as $z)
+                                                @if ($y == $z->id)
+                                                    <ul>
+                                                        <li>
+                                                            {{ $z->user->name }}
+                                                        </li>
+                                                    </ul>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->degree }}
+                                    </td>
+                                    <td class="text-sm col-lg-2">
+                                        <a href="/subjects-edit/{{ $x->id }}" class="mx-3" data-bs-toggle="tooltip"
+                                            data-bs-original-title="Edit">
+                                            <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="#" class="delete-subject" data-id="{{ $x->id }}"
+                                            type="button" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+                                            <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -138,5 +148,3 @@
         });
     </script>
 @endsection
-
-

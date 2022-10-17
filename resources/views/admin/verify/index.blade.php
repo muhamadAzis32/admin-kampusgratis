@@ -67,7 +67,7 @@
                                     {{ $loop->iteration }}
                                 </td>
                                 <td class="text-sm font-weight-normal">
-                                    {{ $x->full_name }}
+                                    {{ $x->user->full_name }}
                                 </td>
                                 <td class="text-sm font-weight-normal">
                                     {{ $x->study_program }}
@@ -111,49 +111,6 @@
                 });
         });
     </script>
-    {{-- <script>
-        $(document).on('click','.editIcon', function(e){
-            e.preventDefault();
-            let id = $(this).attr('id');
-            console.log(id)
-            $.ajax({
-                url:'showFiles/'+id,
-                method:'GET',
-                data: {
-                    id : id
-                },
-                success: function(res){
-                    ${"#res"}.val(res);
-                    ${"#nin"}.val(res.nin);
-                    ${"#study_program"}.val(res.study_program);
-                    ${"#semester"}.val(res.semester);
-                    ${"#residence_address"}.val(res.residence_address);
-                    ${"#nin_address"}.val(res.nin_address);
-                    ${"#phone"}.val(res.birth_place);
-                    ${"#birth_place"}.val(res.birth_place);
-                    ${"#domicile"}.val(res.domicile);
-                    ${"#financier"}.val(res.financier);
-                    ${"father_name"}.val(res.father_name);
-                    ${"#father_income"}.val(res.father_income);
-                    ${"#mother_income"}.val(res.mother_income);
-                    ${"#integrity_pact"}.html(`<img src="storage/images/${res.integrity_pact}" width="100"
-                    class="img-fluid" img-thumbnail">`);
-                    ${"#nin_card"}.html(`<img src="storage/images/${res.nin_card}" width="100"
-                    class="img-fluid" img-thumbnail">`);
-                    ${"#family_card"}.html(`<img src="storage/images/${res.family_card}" width="100"
-                    class="img-fluid" img-thumbnail">`);
-                    ${"#certificate"}.html(`<img src="storage/images/${res.certificate}" width="100"
-                    class="img-fluid" img-thumbnail">`);
-                    ${"#photo"}.html(`<img src="storage/images/${res.photo}" width="100"
-                    class="img-fluid" img-thumbnail">`);
-                    ${"#transcript"}.html(`<img src="storage/images/${res.transcript}" width="100"
-                    class="img-fluid" img-thumbnail">`);
-                    ${"#recomendation_letter"}.html(`<img src="storage/images/${res.recommendation_letter}" width="100"
-                    class="img-fluid" img-thumbnail">`);
-                }
-            })
-        })
-    </script> --}}
 @endsection
 
 

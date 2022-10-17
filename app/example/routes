@@ -1,0 +1,8 @@
+
+    //Quiz
+    Route::get('/quiz', [QuizController::class, 'index']);
+    Route::get('/quiz-create', [QuizController::class, 'create']);
+    Route::post('/quiz-store', [QuizController::class, 'store']);
+    Route::get('/quiz-destroy/{id}', [QuizController::class, 'destroy']);
+    Route::get('/quiz-edit/{id}', [QuizController::class, 'edit']);
+    Route::post('/quiz-update/{id}', [QuizController::class, 'update']);

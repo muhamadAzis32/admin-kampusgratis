@@ -8,6 +8,13 @@ use App\Http\Controllers\VerifyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\MajorController;
+use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\KRSController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // administration
     Route::get('/verifyUser', [VerifyController::class, 'index']);
-    Route::post('/verifyUser-verify', [VerifyController::class, 'verify']);
+    Route::post('/verifyUser-verify/{id}', [VerifyController::class, 'verify']);
     Route::get('/verifyUser-files/{id}', [VerifyController::class, 'files']);
     Route::get('/download/{filename}', [VerifyController::class, 'downloadFile']);
 
@@ -69,15 +76,72 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/subjects-update/{id}', [SubjectController::class, 'update']);
     Route::get('/subjects-destroy/{id}', [SubjectController::class, 'destroy']);
 
+    // modules
+    Route::get('/modules', [ModuleController::class, 'index']);
+    Route::get('/modules-create', [ModuleController::class, 'create']);
+    Route::post('/modules-store', [ModuleController::class, 'store']);
+    Route::get('/modules-edit/{id}', [ModuleController::class, 'edit']);
+    Route::post('/modules-update/{id}', [ModuleController::class, 'update']);
+    Route::get('/modules-destroy/{id}', [ModuleController::class, 'destroy']);
+
+    // session
+    Route::get('/session', [SessionController::class, 'index']);
+    Route::get('/session-create', [SessionController::class, 'create']);
+    Route::post('/session-store', [SessionController::class, 'store']);
+    Route::get('/session-edit/{id}', [SessionController::class, 'edit']);
+    Route::post('/session-update/{id}', [SessionController::class, 'update']);
+    Route::get('/session-destroy/{id}', [SessionController::class, 'destroy']);
+
+     // assignment
+     Route::get('/assignment', [AssignmentController::class, 'index']);
+     Route::get('/assignment-create', [AssignmentController::class, 'create']);
+     Route::post('/assignment-store', [AssignmentController::class, 'store']);
+     Route::get('/assignment-edit/{id}', [AssignmentController::class, 'edit']);
+     Route::post('/assignment-update/{id}', [AssignmentController::class, 'update']);
+     Route::get('/assignment-destroy/{id}', [AssignmentController::class, 'destroy']);
+
     // Admin
     Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/admin-create', [AdminController::class, 'create']);
     Route::post('/admin-store', [AdminController::class, 'store']);
     Route::get('/admin-destroy/{id}', [AdminController::class, 'destroy']);
-});
 
+    // Document
+    Route::get('/document', [DocumentController::class, 'index']);
+    Route::get('/document-create', [DocumentController::class, 'create']);
+    Route::post('/document-store', [DocumentController::class, 'store']);
+    Route::get('/document-edit/{id}', [DocumentController::class, 'edit']);
+    Route::get('/document-destroy/{id}', [DocumentController::class, 'destroy']);
+    Route::post('/document-update/{id}', [DocumentController::class, 'update']);
+
+    //Video
+    Route::get('/video', [VideoController::class, 'index']);
+    Route::get('/video-create', [VideoController::class, 'create']);
+    Route::post('/video-store', [VideoController::class, 'store']);
+    Route::get('/video-destroy/{id}', [VideoController::class, 'destroy']);
+    Route::get('/video-edit/{id}', [VideoController::class, 'edit']);
+    Route::post('/video-update/{id}', [VideoController::class, 'update']);
+
+    //KRS
+    Route::get('/krs', [KRSController::class, 'index']);
+    Route::get('/krs-create', [KRSController::class, 'create']);
+    Route::post('/krs-store', [KRSController::class, 'store']);
+    Route::get('/krs-destroy/{id}', [KRSController::class, 'destroy']);
+    Route::get('/krs-edit/{id}', [KRSController::class, 'edit']);
+    Route::post('/krs-update/{id}', [KRSController::class, 'update']);
+
+    //Quiz
+    Route::get('/quiz', [QuizController::class, 'index']);
+    Route::get('/quiz-create', [QuizController::class, 'create']);
+    Route::get('/quiz-refetch/{id}', [QuizController::class, 'getMajorSubject']);
+    Route::post('/quiz-store', [QuizController::class, 'store']);
+    Route::get('/quiz-destroy/{id}', [QuizController::class, 'destroy']);
+    Route::get('/quiz-edit/{id}', [QuizController::class, 'edit']);
+    Route::post('/quiz-update/{id}', [QuizController::class, 'update']);
+});
 // Tidak perlu login pun bisa di akses :)
 Route::get('/test', function () {
     return view('admin.Table');
 });
+
 

@@ -13,7 +13,6 @@
                     <div class="form-group">
                         <label>Example of select</label>
                         <select data-placeholder="Choose one thing" class="select2">
-                            <option data-select2-id="3"></option>
                             <option data-select2-id="35">1</option>
                             <option data-select2-id="36">2</option>
                             <option data-select2-id="37">3</option>
@@ -33,6 +32,11 @@
                             <option data-select2-id="39">5</option>
                         </select>
                     </div>
+                    <label>Example of select</label>
+                    <select class="select2" multiple="multiple" name="test">
+                        <option>test</option>
+                        <option>test1312</option>
+                    </select>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-flus datatable-basic">
@@ -515,3 +519,16 @@
         </div>
     </div>
 @endsection
+
+<script>
+    $(".test").select2({
+        tags: true,
+        tokenSeparators: [',', ' ']
+    })
+    $('.test').select2({
+  insertTag: function (data, tag) {
+    // Insert the tag at the end of the results
+    data.push(tag);
+  }
+    });
+</script>

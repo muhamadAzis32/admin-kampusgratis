@@ -36,233 +36,396 @@
     <div class="row mt-4">
         <div class="col-12">
             <div class="card">
-                <!-- Card header -->
-                <div class="px-5 pt-5 fw-bolder h4 text-decoration-underline">
-                    Credentials
-                </div>
                 <div class="card-body">
-                    <form method="POST" enctype="multipart/form-data" action="/verifyUser-verify">
-                        @csrf
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <div class="h6">Program Studi</div>
-                                        <div class="small">{{$data->study_program}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Semester</div>
-                                        <div class="small">{{$data->semester}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">NIN</div>
-                                        <div class="small" id="nin" name="nin">{{$data->nin}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">NIN Address</div>
-                                        <div class="small">{{$data->nin_address}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Phone number</div>
-                                        <div class="small">{{$data->phone}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Residence Address</div>
-                                        <div class="small">{{$data->residence_address}}</div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <div class="h6">Birth Place</div>
-                                        <div class="small">{{$data->birth_place}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Domicile</div>
-                                        <div class="small">{{$data->domicile}}</div>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <div class="h6">Financier</div>
-                                        <div class="small">{{$data->financier}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Job</div>
-                                        <div class="small">{{$data->job}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Income</div>
-                                        <div class="small">{{$data->income}}</div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <div class="h6">Father's Name</div>
-                                        <div class="small">{{$data->father_name}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Father's Occupation</div>
-                                        <div class="small">{{$data->father_occupation}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Mother's Name</div>
-                                        <div class="small">{{$data->mother_name}}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="h6">Mother's Occupation</div>
-                                        <div class="small">{{$data->mother_occupation}}</div>
-                                    </div>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h5 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Administrasi Diri
+                                    @if ($data->is_approved['component']['biodata'])
+                                        <i class="fas fa-check ms-4 text-success" aria-hidden="true"></i>
+                                    @endif
+                                </button>
+                            </h5>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="/verifyUser-verify/{{ $data->id }}">
+                                        @csrf
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <div class="mb-3">
+                                                        <div class="h6">Full Name</div>
+                                                        <div class="small">{{ $data->full_name }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Email</div>
+                                                        <div class="small">{{ $data->email }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Program Studi</div>
+                                                        <div class="small">{{ $data->study_program }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Semester</div>
+                                                        <div class="small">{{ $data->semester }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">NIN</div>
+                                                        <div class="small" id="nin" name="nin">
+                                                            {{ $data->nin }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="mb-3">
+                                                        <div class="h6">Birth Place</div>
+                                                        <div class="small">{{ $data->birth_place }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Birth Date</div>
+                                                        <div class="small">{{ $data->birth_date }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">NSN</div>
+                                                        <div class="small">{{ $data->nsn }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Gender</div>
+                                                        <div class="small">
+                                                            @if ($data->gender == 0)
+                                                                Not Set
+                                                            @elseif ($data->gender == 1)
+                                                                Laki-laki
+                                                            @elseif ($data->gender == 2)
+                                                                Wanita
+                                                            @elseif ($data->gender == 2)
+                                                                Selainnya
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">University Origin</div>
+                                                        <div class="small">{{ $data->university_of_origin }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="mb-3">
+                                                        <div class="h6">NIN Address</div>
+                                                        <div class="small">{{ $data->nin_address }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Phone number</div>
+                                                        <div class="small">{{ $data->phone }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Residence Address</div>
+                                                        <div class="small">{{ $data->residence_address }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (!$data->is_approved['component']['biodata'])
+                                                <button type="submit" class="btn bg-gradient-success btn-sm p-2 mt-4"
+                                                    id="submitSelfData" name="verified" value="selfData">
+                                                    <i class="fas fa-check" aria-hidden="true"></i>
+                                                    Verify
+                                                </button>
+                                                <button type="submit" class="btn bg-gradient-danger btn-sm p-2 mt-4"
+                                                    name="denied" value="selfData">
+                                                    <i class="fas fa-times"></i>
+                                                    Deny
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="container">
-                            <div class="fw-bolder h4 text-decoration-underline mb-4">
-                                Documents
-                            </div>
-                            <div class="row">
-                                <div class="col-10">
-                                    <div class="h6">Integrity Pact</div>
-                                    <img src="{{ asset('assets/img/documents/'.$data->integrity_pact) }}"
-                                    class="img-fluid imeg">
-                                    <div class="small p-0 m-0">
-                                        <a class="text-decoration-underline text-link"
-                                            target="_blank"
-                                            href="/download/{{$data->integrity_pact}}">
-                                            {{$data->integrity_pact}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center">
-                                    <input type="checkbox" name="valid[]" value="integrity_pact">
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-10">
-                                    <div class="h6">NIN Card</div>
-                                    <img src="{{ asset('assets/img/documents/'.$data->nin_card) }}"
-                                    class="img-fluid imeg">
-                                    <div class="small p-0 m-0">
-                                        <a class="text-decoration-underline text-link"
-                                        target="_blank"
-                                            href="/download/{{$data->nin_card}}">
-                                            {{$data->nin_card}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center">
-                                    <input type="checkbox" name="valid[]" value="nin_card">
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-10">
-                                    <div class="h6">Family Card</div>
-                                    <img src="{{ asset('assets/img/documents/'.$data->family_card) }}"
-                                    class="img-fluid imeg">
-                                    <div class="small p-0 m-0">
-                                        <a class="text-decoration-underline text-link"
-                                            target="_blank"
-                                            href="/download/{{$data->family_card}}">
-                                            {{$data->family_card}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center">
-                                    <input type="checkbox" name="valid[]" value="family_card">
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-10">
-                                    <div class="h6">Certificate</div>
-                                    <img src="{{ asset('assets/img/documents/'.$data->certificate) }}"
-                                    class="img-fluid imeg">
-                                    <div class="small p-0 m-0">
-                                        <a class="text-decoration-underline text-link"
-                                            target="_blank"
-                                            href="/download/{{$data->certificate}}">
-                                            {{$data->certificate}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center">
-                                    <input type="checkbox" name="valid[]" value="certificate">
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-10">
-                                    <div class="h6">Photo</div>
-                                    <img src="{{ asset('assets/img/documents/'.$data->photo) }}"
-                                    class="img-fluid imeg">
-                                    <div class="small p-0 m-0">
-                                        <a class="text-decoration-underline text-link"
-                                            target="_blank"
-                                            href="/download/{{$data->photo}}">
-                                            {{$data->photo}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center">
-                                    <input type="checkbox" name="valid[]" value="photo">
+                        <div class="accordion-item">
+                            <h5 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <div>Administrasi Keluarga</div>
+                                    @if ($data->is_approved['component']['familial'])
+                                        <i class="fas fa-check ms-4 text-success" aria-hidden="true"></i>
+                                    @endif
+                                </button>
+                            </h5>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="/verifyUser-verify/{{ $data->id }}">
+                                        @csrf
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <div class="mb-3">
+                                                        <div class="h6">Father's Name</div>
+                                                        <div class="small">{{ $data->father_name }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Father's Occupation</div>
+                                                        <div class="small">{{ $data->father_occupation }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Occupation</div>
+                                                        <div class="small">
+                                                            {{ $data->occupation }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="mb-3">
+                                                        <div class="h6">Mother's Name</div>
+                                                        <div class="small">{{ $data->mother_name }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Mother's Occupation</div>
+                                                        <div class="small">{{ $data->mother_occupation }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Income</div>
+                                                        <div class="small">{{ $data->income }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="mb-3">
+                                                        <div class="h6">Financier</div>
+                                                        <div class="small">{{ $data->financier }}</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="h6">Living Partner</div>
+                                                        <div class="small">{{ $data->living_partner }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (!$data->is_approved['component']['familial'])
+                                                <button type="submit" class="btn bg-gradient-success btn-sm p-2 mt-4"
+                                                    id="submitFamilial" name="verified" value="familyData">
+                                                    <i class="fas fa-check"></i>
+                                                    Verify
+                                                </button>
+                                                <button type="submit" class="btn bg-gradient-danger btn-sm p-2 mt-4"
+                                                    name="denied" value="familyData">
+                                                    <i class="fas fa-times"></i>
+                                                    Deny
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="row mt-5">
-                                <div class="col-10">
-                                    <div class="h6">Transcript</div>
-                                    <img src="{{ asset('assets/img/documents/'.$data->transcript) }}"
-                                    class="img-fluid imeg">
-                                    <div class="small p-0 m-0">
-                                        <a class="text-decoration-underline text-link"
-                                            target="_blank"
-                                            href="/download/{{$data->transcript}}">
-                                            {{$data->transcript}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center">
-                                    <input type="checkbox" name="valid[]" value="transcript">
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-10">
-                                    <div class="h6">Recommendation Letter</div>
-                                    <img src="{{ asset('assets/img/documents/'.$data->recommendation_letter) }}"
-                                    class="img-fluid imeg">
-                                    <div class="small p-0 m-0">
-                                        <a class="text-decoration-underline text-link"
-                                            target="_blank"
-                                            href="/download/{{$data->recommendation_letter}}">
-                                            {{$data->recommendation_letter}}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center">
-                                    <input type="checkbox" name="valid[]" value="reccomendation_letter">
-                                </div>
-                            </div>
-
                         </div>
-                        <button type="submit" class="btn bg-gradient-success btn-sm p-2 mt-4">
-                            <i class="fas fa-check"></i>
-                            Verify
-                        </button>
-                        <button type="submit" class="btn bg-gradient-danger btn-sm p-2 mt-4">
-                            <i class="fas fa-times"></i>
-                            Deny
-                        </button>
-                    </form>
+                        <div class="accordion-item">
+                            <h5 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Administrasi File
+                                    @if ($data->is_approved['component']['files'])
+                                        <i class="fas fa-check ms-4 text-success" aria-hidden="true"></i>
+                                    @endif
+                                </button>
+                            </h5>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="/verifyUser-verify/{{ $data->id }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="h6">Integrity Pact</div>
+                                                <img src={{ $data->integrity_pact_link }} class="img-fluid imeg">
+                                                <div class="small p-0 m-0">
+                                                    <a class="text-decoration-underline text-link" target="_blank"
+                                                        href={{ $data->integrity_pact_link }}>
+                                                        {{ $data->integrity_pact }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <input type="checkbox" name="valid[]" value="integrity_pact"
+                                                    class="valid">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-10">
+                                                <div class="h6">NIN Card</div>
+                                                <img src={{ $data->nin_card_link }} class="img-fluid imeg">
+                                                <div class="small p-0 m-0">
+                                                    <a class="text-decoration-underline text-link" target="_blank"
+                                                        href={{ $data->nin_card_link }}>
+                                                        {{ $data->nin_card }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <input type="checkbox" name="valid[]" value="nin_card" class="valid">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-10">
+                                                <div class="h6">Family Card</div>
+                                                <img src={{ $data->family_card_link }} class="img-fluid imeg">
+                                                <div class="small p-0 m-0">
+                                                    <a class="text-decoration-underline text-link" target="_blank"
+                                                        href={{ $data->family_card_link }}>
+                                                        {{ $data->family_card }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <input type="checkbox" name="valid[]" value="family_card"
+                                                    class="valid">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-10">
+                                                <div class="h6">Certificate</div>
+                                                <img src={{ $data->certificate_link }} class="img-fluid imeg">
+                                                <div class="small p-0 m-0">
+                                                    <a class="text-decoration-underline text-link" target="_blank"
+                                                        href={{ $data->certificate }}>
+                                                        {{ $data->certificate }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <input type="checkbox" name="valid[]" value="certificate"
+                                                    class="valid">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-10">
+                                                <div class="h6">Photo</div>
+                                                <img src={{ $data->photo_link }} class="img-fluid imeg">
+                                                <div class="small p-0 m-0">
+                                                    <a class="text-decoration-underline text-link" target="_blank"
+                                                        href={{ $data->photo_link }}>
+                                                        {{ $data->photo }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <input type="checkbox" name="valid[]" value="photo" class="valid">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-10">
+                                                <div class="h6">Transcript</div>
+                                                <img src={{ $data->transcript_link }} class="img-fluid imeg">
+                                                <div class="small p-0 m-0">
+                                                    <a class="text-decoration-underline text-link" target="_blank"
+                                                        href={{ $data->transcript_link }}>
+                                                        {{ $data->transcript }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <input type="checkbox" name="valid[]" value="transcript" class="valid">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-10">
+                                                <div class="h6">Recommendation Letter</div>
+                                                <img src={{ $data->recommendation_letter_link }} class="img-fluid imeg">
+                                                <div class="small p-0 m-0">
+                                                    <a class="text-decoration-underline text-link" target="_blank"
+                                                        href="/download/{{ $data->recommendation_letter }}">
+                                                        {{ $data->recommendation_letter }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <input type="checkbox" name="valid[]" value="recommendation_letter"
+                                                    class="valid">
+                                            </div>
+                                        </div>
+
+                                        @if (!$data->is_approved['component']['files'])
+                                            <button type="submit" class="btn bg-gradient-success btn-sm p-2 mt-4"
+                                                id="submit" name="verified" value="documents">
+                                                <i class="fas fa-check"></i>
+                                                Verify
+                                            </button>
+                                            <button type="submit" class="btn bg-gradient-danger btn-sm p-2 mt-4"
+                                                name="denied" value="documents">
+                                                <i class="fas fa-times"></i>
+                                                Deny
+                                            </button>
+                                        @endif
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h5 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Administrasi Degree
+                                    @if ($data->is_approved['component']['degree'])
+                                        <i class="fas fa-check ms-4 text-success" aria-hidden="true"></i>
+                                    @endif
+                                </button>
+                            </h5>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="/verifyUser-verify/{{ $data->id }}">
+                                        @csrf
+                                        <div class="col-4">
+                                            <div class="mb-3">
+                                                <div class="h6">Degree</div>
+                                                <div class="small">
+                                                    {{ $data->degree }}
+                                                </div>
+                                            </div>
+                                            @if (!$data->is_approved['component']['degree'])
+                                                <button type="submit" class="btn bg-gradient-success btn-sm p-2 mt-4"
+                                                    id="submitDegree" name="verified" value="degree">
+                                                    <i class="fas fa-check"></i>
+                                                    Verify
+                                                </button>
+                                                <button type="submit" class="btn bg-gradient-danger btn-sm p-2 mt-4"
+                                                    name="denied" value="degree">
+                                                    <i class="fas fa-times"></i>
+                                                    Deny
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+    </div>
 @endsection
 
-<script>
-   const images = document.getElementsByClassName('imeg');
-   for(var i = 0; i < 1; i++) {
-    console.log(1)
-    console.log(images[i])
-    images[i].addEventListener('click', function(e) {
-        e.preventDefault();
-        console.log("dada")
-    })
-   }
-</script>
+@section('sweetalert')
+    <script>
+        $(function() {
+            $('.valid').click(function() {
+                var val = []
+                $(':checkbox:checked').each(function(i) {
+                    val[i] = $(this).val()
+                })
+                if (val.length < 8) {
+                    document.getElementById("submit").setAttribute("disabled", "disabled")
+                }
+                if (val.length === 8) {
+                    console.log("enable")
+                    document.getElementById("submit").removeAttribute("disabled")
+                }
+            })
+        })
+    </script>
+@endsection

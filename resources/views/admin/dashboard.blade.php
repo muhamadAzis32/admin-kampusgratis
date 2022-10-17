@@ -88,7 +88,7 @@
                 </div>
                 <div class="card-body p-3">
                     <ul class="list-group">
-                        @foreach ($DAUdata as $x)
+                        @foreach ($DAUdata->take(5) as $x)
                         <li class="list-group-item border-0 justify-content-between ps-0 pb-0 border-radius-lg">
                             <div class="d-flex">
                                 <div class="d-flex align-items-center">
@@ -120,13 +120,13 @@
                 </div>
                 <div class="card-body p-3">
                     <ul class="list-group">
-                        @foreach ($NRUdata as $x)
+                        @foreach ($NRUdata->take(5) as $x)
                         <li class="list-group-item border-0 justify-content-between ps-0 pb-0 border-radius-lg">
                             <div class="d-flex">
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">{{$x->user}}</h6>
-                                        <span class="text-xs">{{$x->user}}</span>
+                                        <h6 class="mb-1 text-dark text-sm">{{$x->id}}</h6>
+                                        <span class="text-xs">{{$x->created_at}}</span>
                                     </div>
                                 </div>
                             </div>

@@ -32,7 +32,6 @@
         </ol>
         <h6 class="font-weight-bolder mb-0">Students</h6>
     </nav>
-
     <div class="row mt-4">
         <div class="col-12">
             <div class="card">
@@ -78,7 +77,6 @@
                                         {{ $x->user->full_name }}
                                     </td>
                                     <td class="text-sm font-weight-normal">
-                                        {{ $x->major->name }}
                                     </td>
                                     <td class="text-sm col-lg-2">
                                         <a href="/students-edit/{{ $x->id }}" class="mx-3" data-bs-toggle="tooltip"

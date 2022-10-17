@@ -66,7 +66,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Lecturer</label>
-                                        <input name='users-list-tags' value='' class="form-control">
+                                        <input name='lecturers' value='' class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Degree</label>
@@ -98,7 +98,7 @@
 
 @section('sweetalert')
 <script>
-    var inputElm = document.querySelector('input[name=users-list-tags]');
+    var inputElm = document.querySelector('input[name=lecturers]');
 
     function tagTemplate(tagData) {
         return `
@@ -170,7 +170,6 @@
                 "value": 1,
                 "name": "Justinian Hattersley",
                 "email": "jhattersley0@ucsd.edu",
-                "team": "A"
             },
         ],
 

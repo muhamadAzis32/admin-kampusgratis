@@ -16,11 +16,12 @@ class DashboardController extends Controller
 {
     public function index(){
         try{
-            $DAUdata = DAU::all();
-            $NRUdata = NRU::all();
+            $DAUdata = DAU::orderBy('created_at','DESC')->get();
+            $NRUdata = NRU::orderBy('created_at','DESC')->get();
             $StudentData = Students::all();
             $LecturerData = Lecturers::all();
             $now = Carbon::today();
+
             return view('admin.dashboard',[
                 'DAUdata'=>$DAUdata,
                 'NRUdata'=>$NRUdata,
