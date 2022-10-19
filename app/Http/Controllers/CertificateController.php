@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Certificate;
 use App\Models\Subject;
+use GuzzleHttp\Psr7\MimeType;
 use Illuminate\Http\Request;
+use Kreait\Firebase\Auth as FirebaseAuth;
+use Kreait\Firebase\Auth\SignInResult\SignInResult;
+use Kreait\Firebase\Exception\FirebaseException;
+use Google\Cloud\Firestore\FirestoreClient;
 use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\DB;
+use App\Models\Session;
 
 class CertificateController extends Controller
 {
@@ -82,11 +88,48 @@ class CertificateController extends Controller
     public function edit(Certificate $certificate, Request $request)
     {
         try {
-            dd($request);
             $selected = $request->selected;
+            $file = $request->file('file');
+            $fileOriginalName = $request->file('file')->getClientOriginalName();
+            $rawFileName = pathinfo($fileOriginalName, PATHINFO_FILENAME);
+            // dd($rawFileName);
 
-            dd($selected);
+            $document   = app('firebase.firestore')->database()->collection('document/certificate/')->document($rawFileName);
+            $firebase_storage_path = 'documents/certificate/';
+            $name = $document->id();
+            $localfolder = public_path('firebase-temp-uploads') . '/';
+            $extension = $file->getClientOriginalExtension();
+
+            // if (!in_array($extension, ['pdf', 'doc', 'docx'])) {
+            //     return redirect('/document')->with('toast_error', 'Wrong File Format');
+            // }
+            $fileName = $name . '.' . $extension;
+            dd($fileName);
+
+            if ($file->move($localfolder, $fileName)) {
+                $uploadedfile = fopen($localfolder . $fileName, 'r');
+                app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path . $fileName]);
+                unlink($localfolder . $fileName);
+                Session::flash('message', 'Succesfully Uploaded');
+            }
+
+            $filePath = "documents/certificate/" . $fileName;
+            $expiresAt = new \DateTime('12th December Next Year');
+            $linkReference = app('firebase.storage')->getBucket()->object($filePath);
+            if ($linkReference->exists()) {
+                $link = $linkReference->signedUrl($expiresAt);
+            } else {
+                $link = null;
+            }
+
+            Certificate::where("id", $selected)->update([
+                'link' => $link,
+                'file' => $filePath
+            ]);
+
+            dd($file);
         } catch (\Throwable $th) {
+            dd($th);
             return redirect('/certificate-create')->with('toast_error',  'Halaman tidak dapat di akses!');
         }
     }
