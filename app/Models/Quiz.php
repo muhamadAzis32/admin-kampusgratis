@@ -20,4 +20,8 @@ class Quiz extends Model
         'questions',
         'answer'
     ];
+
+    public function session(){
+        return $this->belongsTo(Session::class);
+    }
 }

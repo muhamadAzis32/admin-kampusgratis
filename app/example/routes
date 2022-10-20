@@ -1,8 +1,8 @@
 
-    //KRS
-    Route::get('/krs', [KRSController::class, 'index']);
-    Route::get('/krs-create', [KRSController::class, 'create']);
-    Route::post('/krs-store', [KRSController::class, 'store']);
-    Route::get('/krs-destroy/{id}', [KRSController::class, 'destroy']);
-    Route::get('/krs-edit/{id}', [KRSController::class, 'edit']);
-    Route::post('/krs-update/{id}', [AssignmentController::class, 'update']);
+    //Quiz
+    Route::get('/quiz', [QuizController::class, 'index']);
+    Route::get('/quiz-create', [QuizController::class, 'create']);
+    Route::post('/quiz-store', [QuizController::class, 'store']);
+    Route::get('/quiz-destroy/{id}', [QuizController::class, 'destroy']);
+    Route::get('/quiz-edit/{id}', [QuizController::class, 'edit']);
+    Route::post('/quiz-update/{id}', [QuizController::class, 'update']);
