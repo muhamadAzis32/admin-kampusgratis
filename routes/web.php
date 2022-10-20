@@ -11,6 +11,7 @@ use App\Http\Controllers\MajorController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\KRSController;
@@ -36,7 +37,7 @@ Route::get('/logout', [LoginController::class, 'logout']);
 // Bisa di akses jika login
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/dashboard-admin', [DashboardController::class,'index']);
+    Route::get('/dashboard-admin', [DashboardController::class, 'index']);
 
     // students
     Route::get('/students', [StudentsController::class, 'index']);
@@ -92,13 +93,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/session-update/{id}', [SessionController::class, 'update']);
     Route::get('/session-destroy/{id}', [SessionController::class, 'destroy']);
 
-     // assignment
-     Route::get('/assignment', [AssignmentController::class, 'index']);
-     Route::get('/assignment-create', [AssignmentController::class, 'create']);
-     Route::post('/assignment-store', [AssignmentController::class, 'store']);
-     Route::get('/assignment-edit/{id}', [AssignmentController::class, 'edit']);
-     Route::post('/assignment-update/{id}', [AssignmentController::class, 'update']);
-     Route::get('/assignment-destroy/{id}', [AssignmentController::class, 'destroy']);
+    // assignment
+    Route::get('/assignment', [AssignmentController::class, 'index']);
+    Route::get('/assignment-create', [AssignmentController::class, 'create']);
+    Route::post('/assignment-store', [AssignmentController::class, 'store']);
+    Route::get('/assignment-edit/{id}', [AssignmentController::class, 'edit']);
+    Route::post('/assignment-update/{id}', [AssignmentController::class, 'update']);
+    Route::get('/assignment-destroy/{id}', [AssignmentController::class, 'destroy']);
 
     // Admin
     Route::get('/admin', [AdminController::class, 'index']);
@@ -129,8 +130,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/krs-destroy/{id}', [KRSController::class, 'destroy']);
     Route::get('/krs-edit/{id}', [KRSController::class, 'edit']);
     Route::post('/krs-update/{id}', [KRSController::class, 'update']);
-
-    //Quiz
+    
+       //Certificate
+    Route::get('/certificate', [CertificateController::class, 'index']);
+    Route::get('/certificate-create', [CertificateController::class, 'create']);
+    Route::post('/certificate-store', [CertificateController::class, 'store']);
+    Route::put('/certificate-edit', [CertificateController::class, 'edit']);
+    
+      //Quiz
     Route::get('/quiz', [QuizController::class, 'index']);
     Route::get('/quiz-create', [QuizController::class, 'create']);
     Route::get('/quiz-refetch/{id}', [QuizController::class, 'getMajorSubject']);
@@ -138,10 +145,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/quiz-destroy/{id}', [QuizController::class, 'destroy']);
     Route::get('/quiz-edit/{id}', [QuizController::class, 'edit']);
     Route::post('/quiz-update/{id}', [QuizController::class, 'update']);
+
+
 });
 // Tidak perlu login pun bisa di akses :)
 Route::get('/test', function () {
     return view('admin.Table');
 });
-
-

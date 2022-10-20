@@ -19,7 +19,7 @@ class KRSController extends Controller
     public function index()
     {
         try {
-            $data = StudentSubject::distinct('student_id')->where('status',"PENDING")->get();
+            $data = StudentSubject::distinct('student_id')->where('status', "PENDING")->get();
             return view('admin.krs.index', [
                 'data' => $data,
             ]);
@@ -56,7 +56,7 @@ class KRSController extends Controller
     public function store(Request $request)
     {
         try {
-            KRS::create([
+            StudentSubject::create([
                 'user_id' => $request->user_id,
             ]);
             return redirect('/krs')->with('toast_success', 'Data berhasil ditambah!');
@@ -75,11 +75,11 @@ class KRSController extends Controller
     public function edit($id)
     {
         try {
-            $data = StudentSubject::where('student_id',$id)
-                                    ->whereBetween('created_at',array(Carbon::now()->subDays(60),Carbon::now()))
-                                    ->get();
-            foreach($data as $x){
-                $x['count'] = StudentSubject::where('subject_id',$x->subject_id)->count();
+            $data = StudentSubject::where('student_id', $id)
+                ->whereBetween('created_at', array(Carbon::now()->subDays(60), Carbon::now()))
+                ->get();
+            foreach ($data as $x) {
+                $x['count'] = StudentSubject::where('subject_id', $x->subject_id)->count();
             }
             return view('admin.krs.edit', [
                 'data' => $data
@@ -115,7 +115,7 @@ class KRSController extends Controller
             //         'status'=>'PENDING'
             //     ]);
             // }
-            return response()->json(['result'=>$request->id]);
+            return response()->json(['result' => $request->id]);
         } catch (\Throwable $th) {
             return redirect()->back()->with('toast_error',  'Data tidak berhasil diubah!');
         }
@@ -130,7 +130,7 @@ class KRSController extends Controller
     public function destroy($id)
     {
         try {
-            KRS::where('id', $id)->delete();
+            StudentSubject::where('id', $id)->delete();
             return redirect('/krs')->with('toast_success', 'Data berhasil dihapus!');
         } catch (\Throwable $th) {
             return redirect('/krs')->with('toast_error',  'Data tidak berhasil dihapus!');
