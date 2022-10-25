@@ -73,7 +73,6 @@ class SessionSeeder extends Seeder
             return rand(1,2);
         }
         $subject = MajorSubject::where('major_id','556251ac-3fa8-11ed-b878-0242ac120002')->get('subject_id','name');
-
         $quiz = json_encode([
             [
                 "question"=>'apa itu lukas?',
@@ -95,7 +94,8 @@ class SessionSeeder extends Seeder
 
         $answer = "{'iya','iya','bener sih'}";
         foreach($subject as $x){
-            $session = Session::where('subject_id',$x->subject_id)->get('id','session_no');
+            $session = Session::where('subject_id',$x->subject_id)->get(['id','session_no']);
+            $subject_name = Subject::where('id',$x->subject_id)->get('name')[0];
             foreach($session as $y){
                 // Modules::create([
                 //     'id'=> Str::uuid(),
@@ -103,27 +103,27 @@ class SessionSeeder extends Seeder
                 //     'video_id'=>randomVideo(),
                 //     'document_id'=>randomDocument(),
                 // ]);
-                // Assignment::create([
-                //     'id'=> Str::uuid(),
-                //     'session_id'=>$y->id,
-                //     'duration'=>3600*randomOneOrTwo(),
-                //     'description'=>"This is the description for ".$y->name.", session ".$y->session_no,
-                //     'content'=>"This is the module for ".$y->name.", session ".$y->session_no,
-                //     'file_assignment'=>"document_assignment/9c7dd7de-e63b-4e96-834f-7c1445f4074e-3768-12121-1-PB.pdf",
-                //     'file_assignment_link'=>"https://firebasestorage.googleapis.com/v0/b/kampus-gratis2.appspot.com/o/document_assignment%2F9c7dd7de-e63b-4e96-834f-7c1445f4074e-3768-12121-1-PB.pdf?alt=media&token=bacfd53b-9e24-42d1-9ddc-a307e1f257ca"
-                // ]);
-                Quiz::create([
-                    'id'=>Str::uuid(),
+                Assignment::create([
+                    'id'=> Str::uuid(),
                     'session_id'=>$y->id,
                     'duration'=>3600*randomOneOrTwo(),
-                    'description'=>"Quiz for session for ".$y->name.", session ".$y->session_no,
-                    'questions'=> $quiz,
-                    'answer'=>$answer
+                    'description'=>"This is the description for subject ".$subject_name->name.", session ".$y->session_no,
+                    'content'=>"This is the module for ".$subject_name->name.", session ".$y->session_no,
+                    'file_assignment'=>"document_assignment/9c7dd7de-e63b-4e96-834f-7c1445f4074e-3768-12121-1-PB.pdf",
+                    'file_assignment_link'=>"https://firebasestorage.googleapis.com/v0/b/kampus-gratis2.appspot.com/o/document_assignment%2F9c7dd7de-e63b-4e96-834f-7c1445f4074e-3768-12121-1-PB.pdf?alt=media&token=bacfd53b-9e24-42d1-9ddc-a307e1f257ca"
                 ]);
+                // Quiz::create([
+                //     'id'=>Str::uuid(),
+                //     'session_id'=>$y->id,
+                //     'duration'=>3600*randomOneOrTwo(),
+                //     'description'=>"Quiz for session for ".$y->name.", session ".$y->session_no,
+                //     'questions'=> $quiz,
+                //     'answer'=>$answer
+                // ]);
             }
         }
-        // foreach($data as $key=>$value){
-        //     $randomAmountOfSession = rand(7,8);
+        // foreach($subject as $key=>$value){
+        //     $randomAmountOfSession = rand(6,8);
         //     for($j=0;$j<$randomAmountOfSession;$j++){
         //         Session::create([
         //             'id'=>Str::uuid(),

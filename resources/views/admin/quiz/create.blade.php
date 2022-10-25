@@ -1,6 +1,6 @@
 @extends('_layout.layout_main')
 @php
-$no_of_questions = 2;
+    $no_of_questions = 1;
 @endphp
 @section('content')
     <nav aria-label="breadcrumb">
@@ -81,44 +81,46 @@ $no_of_questions = 2;
                             </select>
                         </div>
                         @for ($i = 0; $i < $no_of_questions; $i++)
-                            <div class="form-group card border p-2">
-                                <label>Question 1</label>
-                                <div class="container p-0">
-                                    <div>
-                                        <textarea type="text" placeholder="Question 1" class="form-control mb-3" name="question1"></textarea>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col">
-                                            <input type="text" placeholder="Choice A" class="form-control"
-                                                name="choice[]">
+                            <div class="form-quiz">
+                                <div class="form-group card border p-2">
+                                    <label>Question 1</label>
+                                    <div class="container p-0">
+                                        <div>
+                                            <textarea type="text" placeholder="Question 1" class="form-control mb-3" name="question1"></textarea>
                                         </div>
-                                        <div class="col">
-                                            <input type="text" placeholder="Choice B" class="form-control"
-                                                name="choice[]">
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <input type="text" placeholder="Choice A" class="form-control"
+                                                    name="choice[]">
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" placeholder="Choice B" class="form-control"
+                                                    name="choice[]">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <input type="text" placeholder="Choice C" class="form-control"
-                                                name="choice[]">
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" placeholder="Choice D" class="form-control"
-                                                name="choice[]">
+                                        <div class="row">
+                                            <div class="col">
+                                                <input type="text" placeholder="Choice C" class="form-control"
+                                                    name="choice[]">
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" placeholder="Choice D" class="form-control"
+                                                    name="choice[]">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col text-end">
-                                    <button class="btn plus">
-                                        <i class="fa fa-icon fa-plus"></i>
-                                    </button>
-                                </div>
-                                <div class="col text-start">
-                                    <button class="btn min">
-                                        <i class="fa fa-icon fa-trash"></i>
-                                    </button>
+                                <div class="row">
+                                    <div class="col text-end">
+                                        <button class="btn plus">
+                                            <i class="fa fa-icon fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col text-start">
+                                        <button class="btn min">
+                                            <i class="fa fa-icon fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         @endfor
