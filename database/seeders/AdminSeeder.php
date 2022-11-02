@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
         DB::table('admins')->insert([
             [
                 'id' => Str::uuid(),
-                'email' => Str::random(5).'@gmail.com',
+                'email' => 'admin@gmail.com',
                 'password' => bcrypt('password'),
                 'updated_at' => Carbon::now(),
                 'created_at' => Carbon::now(),
