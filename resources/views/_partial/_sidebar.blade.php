@@ -105,6 +105,12 @@
                                 <span class="sidenav-normal"> Certificate </span>
                             </a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="nav-link " href="/check">
+                                <span class="sidenav-mini-icon"> C </span>
+                                <span class="sidenav-normal"> Check Students Assignment </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>

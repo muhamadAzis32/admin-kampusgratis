@@ -1,5 +1,6 @@
 @extends('_layout.layout_main')
 
+
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
@@ -25,11 +26,11 @@
                     </svg>
                 </a>
             </li>
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Curriculum</a>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a>
             </li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">KRS</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">checks</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0">KRS</h6>
+        <h6 class="font-weight-bolder mb-0">Check</h6>
     </nav>
 
     <div class="row mt-4">
@@ -39,17 +40,10 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">KRS</h5>
+                            <h5 class="mb-0">All check</h5>
                             {{-- <p class="text-sm mb-0">
                                 A lightweight, extendable, dependency-free javascript HTML table plugin.
                             </p> --}}
-                        </div>
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <a href="/krs-create" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp;
-                                    New KRS
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,13 +53,19 @@
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student's
-                                    UUID
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Students ID
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student's
-                                    Name
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Students Name
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Preview
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Session No.
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Enrolled Date
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action
                                 </th>
                             </tr>
                         </thead>
@@ -75,18 +75,33 @@
                                     <td class="text-sm font-weight-normal col-lg-1">
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td class="text-sm font-weight-normal col-lg-1">
+                                    <td class="text-sm font-weight-normal">
                                         {{ $x->student_id }}
                                     </td>
-                                    <td class="text-sm font-weight-normal col-lg-1">
-                                        {{ $x->student->user->full_name}}
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->student->user->full_name }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->subject->name }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->session->session_no }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->created_at }}
+                                    </td>
+                                    <td class="text-sm font-weight-normal">
+                                        {{ $x->type }}
                                     </td>
                                     <td class="text-sm col-lg-2">
-                                        <a href="/krs-edit/{{ $x->student_id }}" class="mx-3" data-bs-toggle="tooltip"
+                                        <a href="/checkuser/{{ $x->id }}" class="mx-3" data-bs-toggle="tooltip"
                                             data-bs-original-title="Edit">
                                             <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                         </a>
-                                    </td>
+                                        <a href="#" class="delete-assignment" data-id="{{ $x->id }}"
+                                            type="button" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+                                            <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
+                                        </a>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -101,18 +116,20 @@
     {{-- DELETE WITH SWEETALERT --}}
     <script>
         // get class
-        $('.delete-subject').click(function() {
+        $('.delete-assignment').click(function() {
             // get attr
             let id = $(this).attr('data-id');
             swal({
-                    title: "Document",
+                    title: "Hapus Data",
                     text: "Anda yakin ingin menghapus?",
+                    icon: "warning",
                     buttons: true,
+                    dangerMode: true,
                 })
                 .then((willDelete) => {
                     if (willDelete) {
                         //Memanggil routes delete"
-                        window.location = "/krs-destroy/" + id + "";
+                        window.location = "/assignment-destroy/" + id + "";
                         swal("Data Anda telah dihapus!", {
                             icon: "success",
                         });

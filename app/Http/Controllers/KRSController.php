@@ -85,7 +85,6 @@ class KRSController extends Controller
                 'data' => $data
             ]);
         } catch (\Throwable $th) {
-            dd($th);
             return redirect('/krs')->with('toast_error',  'Halaman tidak dapat di akses!');
         }
     }
@@ -97,24 +96,29 @@ class KRSController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
         try {
-            // if(($request->value)=="true"){
-            //     StudentSubject::where('id',$id)->update([
-            //         'status'=>'ONGOING'
-            //     ]);
-            // }
-            // if(($request->value)=="false"){
-            //     StudentSubject::where('id',$id)->update([
-            //         'status'=>'REJECTED'
-            //     ]);
-            // }
-            // if(($request->value)=="revert"){
-            //     StudentSubject::where('id',$id)->update([
-            //         'status'=>'PENDING'
-            //     ]);
-            // }
+            if(($request->value)=="true"){
+                if($request->proof){
+                    StudentSubject::where('id',$id)->update([
+                        'status'=>'ONGOING'
+                    ]);
+                }
+                StudentSubject::where('id',$id)->update([
+                    'status'=>'ONGOING'
+                ]);
+            }
+            if(($request->value)=="false"){
+                StudentSubject::where('id',$id)->update([
+                    'status'=>'REJECTED'
+                ]);
+            }
+            if(($request->value)=="revert"){
+                StudentSubject::where('id',$id)->update([
+                    'status'=>'PENDING'
+                ]);
+            }
             return response()->json(['result' => $request->id]);
         } catch (\Throwable $th) {
             return redirect()->back()->with('toast_error',  'Data tidak berhasil diubah!');

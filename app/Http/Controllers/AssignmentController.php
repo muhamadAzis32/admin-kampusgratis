@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\assignment;
+use App\Models\MaterialEnrolled;
 
 class AssignmentController extends Controller
 {
@@ -118,6 +119,30 @@ class AssignmentController extends Controller
             Assignment::where('id', $id)->delete();
             return redirect('/assignment')->with('toast_success', 'Data berhasil dihapus!');
         } catch (\Throwable $th) {
+            return redirect('/assignment')->with('toast_error',  'Data tidak berhasil diubah!');
+        }
+    }
+
+    public function check()
+    {
+        try {
+            $data = MaterialEnrolled::where('type','ASSIGNMENT')->where('status','ONGOING')->get(['id','subject_id','created_at','activity_detail','student_id','session_id','type']);
+            return view('admin.assignment.check', [
+                'data' => $data
+            ]);
+        } catch (\Throwable $th) {
+            return redirect('/assignment')->with('toast_error',  'Data tidak berhasil diubah!');
+        }
+    }
+    public function checkuser($id)
+    {
+        try {
+            $data = MaterialEnrolled::where('id',$id)->first(['id','student_id','session_id',"subject_id",'activity_detail']);
+            return view('admin.assignment.checkuser', [
+                'data' => $data
+            ]);
+        } catch (\Throwable $th) {
+            dd($th);
             return redirect('/assignment')->with('toast_error',  'Data tidak berhasil diubah!');
         }
     }

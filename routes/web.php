@@ -100,6 +100,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/assignment-edit/{id}', [AssignmentController::class, 'edit']);
     Route::post('/assignment-update/{id}', [AssignmentController::class, 'update']);
     Route::get('/assignment-destroy/{id}', [AssignmentController::class, 'destroy']);
+    Route::get('/check', [AssignmentController::class, 'check']);
+    Route::get('/checkuser/{id}', [AssignmentController::class, 'checkuser']);
+    Route::get('/checkupdate/{id}', [AssignmentController::class, 'checkupdate']);
 
     // Admin
     Route::get('/admin', [AdminController::class, 'index']);
@@ -130,13 +133,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/krs-destroy/{id}', [KRSController::class, 'destroy']);
     Route::get('/krs-edit/{id}', [KRSController::class, 'edit']);
     Route::post('/krs-update/{id}', [KRSController::class, 'update']);
-    
+
        //Certificate
     Route::get('/certificate', [CertificateController::class, 'index']);
     Route::get('/certificate-create', [CertificateController::class, 'create']);
     Route::post('/certificate-store', [CertificateController::class, 'store']);
     Route::put('/certificate-edit', [CertificateController::class, 'edit']);
-    
+
       //Quiz
     Route::get('/quiz', [QuizController::class, 'index']);
     Route::get('/quiz-create', [QuizController::class, 'create']);
@@ -145,8 +148,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/quiz-destroy/{id}', [QuizController::class, 'destroy']);
     Route::get('/quiz-edit/{id}', [QuizController::class, 'edit']);
     Route::post('/quiz-update/{id}', [QuizController::class, 'update']);
-
-
 });
 // Tidak perlu login pun bisa di akses :)
 Route::get('/test', function () {

@@ -44,57 +44,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="table-responsive">
-                    <table class="table table-flus datatable-basic">
-                        <thead class="thead-light">
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#
-                                </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Subject
-                                </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    SKS
-                                </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $x)
-                                <tr>
-                                    <td class="text-sm font-weight-normal col-lg-1">
-                                        {{ $loop->iteration }}
-                                    </td>
-                                    <td class="text-sm font-weight-normal col-lg-1">
-                                        {{ $x->subject->name }}
-                                    </td>
-                                    <td class="text-sm font-weight-normal col-lg-1">
-                                        {{ $x->subject->credit }}
-                                    </td>
-                                    <td class="text-sm col-lg-2 text-center">
-                                        @if ($x->status == 'PENDING')
-                                            <button class="btn btn-success p-2 submitKRS" type="submit" name="submit"
-                                                id="submit" value="true" data-id="{{ $x->id }}">
-                                                <i class="fas fa-check" aria-hidden="true"></i>
-                                            </button>
-                                            <button class="btn btn-danger p-2  submitKRS" type="submit" name="submit"
-                                                value="false" data-id="{{ $x->id }}">
-                                                <i class="fas fa-times" aria-hidden="true"></i>
-                                            </button>
-                                        @elseif ($x->status == 'REJECTED' || 'ONGOING')
-                                            <button class="btn p-2  submitKRS" type="submit" name="submit" value="revert"
-                                                data-id="{{ $x->id }}">
-                                                <i class="fas fa-undo" aria-hidden="true"></i>
-                                            </button>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div> --}}
                 <div class="container text-center">
                     <div class="row h6">
                         <div class="col">
@@ -120,7 +69,13 @@
                                 {{ $loop->iteration }}
                             </div>
                             <div class="col">
-                                {{ $x->subject->name }}
+                                @if (!$x->proof_link)
+                                    {{ $x->subject->name }}
+                                @else
+                                    <a href="{{$x->proof_link}}" target="blank" class="text-primary text-decoration-underline">
+                                        {{ $x->subject->name }}
+                                    </a>
+                                @endif
                             </div>
                             <div class="col">
                                 {{ $x->subject->credit }}
@@ -130,12 +85,18 @@
                             </div>
                             <div class="col">
                                 <div class="d-flex flex-row justify-content-evenly">
-                                    <button class="btn btn-success p-2" value="true" type="submit" id="ajax-submit">
-                                        <i class="fa fa-icon fa-check"></i>
-                                    </button>
-                                    <button class="btn btn-danger p-2" value="false" type="submit">
-                                        <i class="fa fa-icon fa-times"></i>
-                                    </button>
+                                    @if ($x->status == 'ONGOING'||$x->status=='REJECTED')
+                                        <button class="btn btn-secondary p-2" value="revert" type="submit" id="ajax-submit">
+                                            <i class="fa fa-icon fa-redo"></i>
+                                        </button>
+                                    @elseif ($x->status == 'PENDING')
+                                        <button class="btn btn-success p-2" value="true" type="submit" id="ajax-submit" >
+                                            <i class="fa fa-icon fa-check"></i>
+                                        </button>
+                                        <button class="btn btn-danger p-2" value="false" type="submit" id="ajax-submit">
+                                            <i class="fa fa-icon fa-times"></i>
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -148,25 +109,44 @@
 
 @section('sweetalert')
     {{-- DELETE WITH SWEETALERT --}}
+
     <script>
+
         $(document).ready(function() {
-            $('#ajax-submit').click(function(e) {
-                console.log("test")
+            $("button#ajax-submit").click(function(e){
                 let id = $(this).attr('data-id');
-                e.preventDefault();
+                const value = $(this).attr("value");
+                const session = $(this).attr("session_id")
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
                     }
                 })
                 $.ajax({
-                    url: "{{ url('/krs-update') }}",
+                    url: `{{ url('/krs-update/${id}') }}`,
                     method: "POST",
                     data: {
-                        id: id
+                        value,
+                        id
+                    },
+                    beforeSend: function(){
+                        swal({
+                title:"",
+                text:"Loading...",
+                icon: "https://www.boasnotas.com/img/loading2.gif",
+                buttons: false,
+                closeOnClickOutside: false,
+                timer: 3000,
+                allowOutsideClick: false
+            });
                     },
                     success: function(result) {
-                        console.log(result)
+                       e.target.parentElement.remove();
+                       swal.stopLoading();
+                    },
+                    error: function(err){
+                        console.log(err);
                     }
                 })
             })
