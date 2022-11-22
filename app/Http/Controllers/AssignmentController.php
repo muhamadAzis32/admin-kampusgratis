@@ -146,4 +146,14 @@ class AssignmentController extends Controller
             return redirect('/assignment')->with('toast_error',  'Data tidak berhasil diubah!');
         }
     }
+    public function checkupdate(Request $request,$id)
+    {
+        try {
+            MaterialEnrolled::where('id',$id)->update([
+                'score'=>$request->score
+            ]);
+        } catch (\Throwable $th) {
+            return redirect('/assignment')->with('toast_error',  'Data tidak berhasil diubah!');
+        }
+    }
 }

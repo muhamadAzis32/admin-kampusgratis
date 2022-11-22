@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="/check-update/{{ $data->id }}" method="POST" enctype="multipart/form-data">
+                    <form action="/checkupdate/{{ $data->id }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="container">
                             <div class="row">
@@ -81,8 +81,15 @@
                                     <div class="text-sm font-weight-normal">{{$data->activity_detail['date_submit']}}</div>
                                 </div>
                             </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <div class="form-group container">
+                                        <label>Score</label>
+                                        <input name="score" type="text" class="form-control" placeholder="Score" required>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                         <a href="/check" type="button" class="btn btn-outline-primary btn-sm mb-0">
                             Back
                         </a>
