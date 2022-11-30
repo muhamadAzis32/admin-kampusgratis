@@ -72,7 +72,8 @@
                                 @if (!$x->proof_link)
                                     {{ $x->subject->name }}
                                 @else
-                                    <a href="{{$x->proof_link}}" target="blank" class="text-primary text-decoration-underline">
+                                    <a href="{{ $x->proof_link }}" target="blank"
+                                        class="text-primary text-decoration-underline">
                                         {{ $x->subject->name }}
                                     </a>
                                 @endif
@@ -85,15 +86,18 @@
                             </div>
                             <div class="col">
                                 <div class="d-flex flex-row justify-content-evenly">
-                                    @if ($x->status == 'ONGOING'||$x->status=='REJECTED')
-                                        <button class="btn btn-secondary p-2" value="revert" type="submit" id="ajax-submit">
+                                    @if ($x->status == 'ONGOING' || $x->status == 'REJECTED')
+                                        <button class="btn btn-secondary p-2" value="revert" type="submit" id="ajax-submit"
+                                            data-id="{{ $x->id }}">
                                             <i class="fa fa-icon fa-redo"></i>
                                         </button>
                                     @elseif ($x->status == 'PENDING')
-                                        <button class="btn btn-success p-2" value="true" type="submit" id="ajax-submit" >
+                                        <button class="btn btn-success p-2" value="true" type="submit" id="ajax-submit"
+                                            data-id="{{ $x->id }}">
                                             <i class="fa fa-icon fa-check"></i>
                                         </button>
-                                        <button class="btn btn-danger p-2" value="false" type="submit" id="ajax-submit">
+                                        <button class="btn btn-danger p-2" value="false" type="submit" id="ajax-submit"
+                                            data-id="{{ $x->id }}">
                                             <i class="fa fa-icon fa-times"></i>
                                         </button>
                                     @endif
@@ -109,14 +113,14 @@
 
 @section('sweetalert')
     {{-- DELETE WITH SWEETALERT --}}
-
     <script>
-
-        $(document).ready(function() {
-            $("button#ajax-submit").click(function(e){
+            function handleSubmit(e) {
                 let id = $(this).attr('data-id');
                 const value = $(this).attr("value");
-                const session = $(this).attr("session_id")
+                const session = $(this).attr("session_id");
+                const buttonElement = $(this);
+                const parentElement = $(this).parent();
+
 
                 $.ajaxSetup({
                     headers: {
@@ -130,26 +134,44 @@
                         value,
                         id
                     },
-                    beforeSend: function(){
+                    beforeSend: function() {
                         swal({
-                title:"",
-                text:"Loading...",
-                icon: "https://www.boasnotas.com/img/loading2.gif",
-                buttons: false,
-                closeOnClickOutside: false,
-                timer: 3000,
-                allowOutsideClick: false
-            });
+                            title: "",
+                            text: "Loading...",
+                            icon: "https://www.boasnotas.com/img/loading2.gif",
+                            buttons: false,
+                            closeOnClickOutside: false,
+                            timer: 3000,
+                            allowOutsideClick: false
+                        });
                     },
                     success: function(result) {
-                       e.target.parentElement.remove();
-                       swal.stopLoading();
+                        swal.stopLoading()
+                        
+                        if (value === "revert") {
+                            buttonElement.remove()
+                            parentElement.html(`
+                                        <button class="btn btn-success p-2" value="true" type="submit" id="ajax-submit" data-id="${id}">
+                                            <i class="fa fa-icon fa-check"></i>
+                                        </button>
+                                        <button class="btn btn-danger p-2" value="false" type="submit" id="ajax-submit" data-id="${id}">
+                                            <i class="fa fa-icon fa-times"></i>
+                                        </button>
+                        `)
+                        }else{                
+                            parentElement.html(`
+                                        <button class="btn btn-secondary p-2" value="revert" type="submit" id="ajax-submit"
+                                            data-id="${id}">
+                                            <i class="fa fa-icon fa-redo"></i>
+                                        </button>
+                            `)
+                        }
                     },
-                    error: function(err){
+                    error: function(err) {
                         console.log(err);
                     }
                 })
-            })
-        })
+            }
+        $("body").on("click","button#ajax-submit",handleSubmit);    
     </script>
 @endsection

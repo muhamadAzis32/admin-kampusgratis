@@ -44,8 +44,10 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    {{-- @dd($data->student->id) --}}
                     <form action="/checkupdate/{{ $data->id }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" value={{ $data->student->id }} name="student_id">
                         <div class="container">
                             <div class="row">
                                 <div class="col">

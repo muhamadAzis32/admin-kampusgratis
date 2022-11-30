@@ -102,7 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/assignment-destroy/{id}', [AssignmentController::class, 'destroy']);
     Route::get('/check', [AssignmentController::class, 'check']);
     Route::get('/checkuser/{id}', [AssignmentController::class, 'checkuser']);
-    Route::get('/checkupdate/{id}', [AssignmentController::class, 'checkupdate']);
+    Route::post('/checkupdate/{id}', [AssignmentController::class, 'checkupdate']);
 
     // Admin
     Route::get('/admin', [AdminController::class, 'index']);

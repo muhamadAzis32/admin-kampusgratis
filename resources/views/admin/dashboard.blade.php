@@ -93,8 +93,8 @@
                             <div class="d-flex">
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark text-sm">{{$x->user->full_name}} ({{$x->user->id}})</h6>
-                                        <span class="text-xs">{{$x->user->created_at}}</span>
+                                        <h6 class="mb-1 text-dark text-sm">{{$x->user->full_name ?? '-'}} ({{$x->user->id ?? "-"}})</h6>
+                                        <span class="text-xs">{{$x->user->created_at ?? "-"}}</span>
                                     </div>
                                 </div>
                             </div>

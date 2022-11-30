@@ -97,7 +97,7 @@ class KRSController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,$id)
-    {
+    {   
         try {
             if(($request->value)=="true"){
                 if($request->proof){

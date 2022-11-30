@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 use App\Models\assignment;
 use App\Models\MaterialEnrolled;
@@ -137,7 +138,7 @@ class AssignmentController extends Controller
     public function checkuser($id)
     {
         try {
-            $data = MaterialEnrolled::where('id',$id)->first(['id','student_id','session_id',"subject_id",'activity_detail']);
+            $data = MaterialEnrolled::where('id',$id)->first(['id','student_id','session_id',"subject_id",'activity_detail']);            
             return view('admin.assignment.checkuser', [
                 'data' => $data
             ]);
@@ -148,6 +149,14 @@ class AssignmentController extends Controller
     }
     public function checkupdate(Request $request,$id)
     {
+        $response = Http::post('https://fe-integration-test.herokuapp.com/api/v1/assignment/lecturer/grade',[
+            "material_enrolled_id" => "cbd2ff3f-2019-4d05-9c60-488629af866c",
+            "student_id" => "cd11d046-43b4-11ed-b878-0242ac120002",
+            "score" => 65
+        ]);
+
+        // dd($request->student_id);
+        dd($response);
         try {
             MaterialEnrolled::where('id',$id)->update([
                 'score'=>$request->score
