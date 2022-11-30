@@ -75,9 +75,11 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         try {
-            Quiz::create([
-                'user_id' => $request->user_id,
-            ]);
+            Quiz::create(
+                [
+                    'questions' => json_encode($request->questions),
+                    'answer' => str_replace(['[', ']'], ['{', '}'],json_encode($request->answer)),
+                ]);
             return redirect('/quiz')->with('toast_success', 'Data berhasil ditambah!');
         } catch (\Throwable $th) {
             dd($th);
@@ -94,7 +96,7 @@ class QuizController extends Controller
     public function edit($id)
     {
         try {
-            $data = Quiz::all();
+            $data = Quiz::find($id);
             return view('admin.quiz.edit', [
                 'data' => $data,
             ]);

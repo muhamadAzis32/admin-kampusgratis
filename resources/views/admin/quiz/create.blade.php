@@ -1,3 +1,4 @@
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @extends('_layout.layout_main')
 @php
 $no_of_questions = 2;
@@ -46,7 +47,7 @@ $no_of_questions = 2;
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="/quiz-store" method="POST" enctype="multipart/form-data">
+                    <form enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Major</label>
@@ -80,7 +81,49 @@ $no_of_questions = 2;
                                 <option value="6">6</option>
                             </select>
                         </div>
-                        @for ($i = 0; $i < $no_of_questions; $i++)
+                        <div id="question-wrapper">
+                                <div class="card p-3 mb-3" id="question" data-question="0" style="border:1px solid #d2d6da">
+                                    <h3 id="question-title" contenteditable="true">Pertanyaan</h3>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pertanyaan_input" id="pertanyaan_input" value="Jawaban 1">
+                                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                                          Jawaban 1
+                                        </label>
+                                    </div>     
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pertanyaan_input" id="pertanyaan_input" value="Jawaban 2 ">
+                                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                                          Jawaban 2 
+                                        </label>
+                                    </div>      
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pertanyaan_input" id="pertanyaan_input" value="Jawaban 3">
+                                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                                          Jawaban 3
+                                        </label>
+                                    </div>      
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pertanyaan_input" id="pertanyaan_input" value="Jawaban 4">
+                                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                                          Jawaban 4
+                                        </label>
+                                    </div>               
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="col text-end">
+                                    <button class="btn plus" id="tambah-pertanyaan">
+                                        <i class="fa fa-icon fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="col text-start">
+                                    <button class="btn min" onclick="removeQuestion(event)">
+                                        <i class="fa fa-icon fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- @for ($i = 0; $i < $no_of_questions; $i++)
                             <div class="form-group card border p-2">
                                 <label>Question 1</label>
                                 <div class="container p-0">
@@ -121,17 +164,14 @@ $no_of_questions = 2;
                                     </button>
                                 </div>
                             </div>
-                        @endfor
+                        @endfor --}}
                         <a href="/quiz" type="button" class="btn btn-outline-primary btn-sm mb-0">
                             Back
                         </a>
-                        <button type="submit" class="btn bg-gradient-primary btn-sm mb-0">
+                        <button type="submit" class="btn bg-gradient-primary btn-sm mb-0" id="simpan-pertanyaan">
                             Submit
                         </button>
-                    </form>
-                    <button class="test">
-                        test
-                    </button>
+                    <button class="test"></button>
                 </div>
             </div>
         </div>
@@ -140,7 +180,7 @@ $no_of_questions = 2;
 
 @section('sweetalert')
     {{-- DELETE WITH SWEETALERT --}}
-    <script>
+    {{-- <script>
         var sites = {!! json_encode($no_of_questions) !!};
         $(document).ready(function() {
             $('.test').click(function() {
@@ -148,5 +188,142 @@ $no_of_questions = 2;
                 console.log(sites)
             })
         })
+    </script> --}}
+
+      <script>  
+        let id = 1;
+        function handleTambahPertanyaan(e) {
+            e.preventDefault();
+            $("#question-wrapper").append(`
+            <div class="card p-3 mb-3" id="question" data-question="${id}">
+                <h3 id="question-title" contenteditable="true">Pertanyaan</h3>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pertanyaan_input${id}" id="pertanyaan_input${id}" value="Jawaban 1">
+                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                          Jawaban 1
+                        </label>
+                    </div>     
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pertanyaan_input${id}" id="pertanyaan_input${id}" value="Jawaban 2">
+                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                          Jawaban 2
+                        </label>
+                    </div>      
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pertanyaan_input${id}" id="pertanyaan_input${id}" value="Jawaban 3">
+                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                          Jawaban 3
+                        </label>
+                    </div>      
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pertanyaan_input${id}" id="pertanyaan_input${id}" value="Jawaban 4">
+                        <label class="form-check-label" id="pertanyaan_label" contenteditable="true" data-id="pertanyaan1" oninput="handleInputValue(event)">
+                          Jawaban 4
+                        </label>
+                    </div>    
+                    <div class="row">
+                                <div class="col text-end">
+                                    <button class="btn plus" id="tambah-pertanyaan">
+                                        <i class="fa fa-icon fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="col text-start">
+                                    <button class="btn min" onclick="removeQuestion(event)">
+                                        <i class="fa fa-icon fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>           
+                </div>
+            `);
+
+            id++;
+        }
+
+        $("#simpan-pertanyaan").click(function(e) {
+            const form = document.querySelector("#question-form"); 
+            const questionElement = document.querySelectorAll("#question");
+            const questions = [];
+            const answer = [];
+
+
+            const majorElement = document.querySelector("#major_id");
+            const majorId = majorElement.options[majorElement.selectedIndex].text
+
+            const subjectElement = document.querySelector("#subject_id");
+            const subjectId = subjectElement.options[subjectElement.selectedIndex].text
+
+            const sessionElement = document.querySelector("select[name=session_no]");
+            const sessionId = sessionElement.options[sessionElement.selectedIndex].text
+           
+
+            questionElement.forEach(item => {
+                const radioElement = [...item.querySelectorAll(".form-check input[type='radio']")];
+                const question = item.querySelector("#question-title").textContent;
+                const choices = radioElement.map(data =>
+                    data.value);
+
+                const checked = radioElement.find(data =>
+                    data.checked).value;  
+
+                const val = {
+                    question,
+                    choices
+                }
+
+        
+                questions.push(val);
+                answer.push(checked);
+            });
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+                }
+            })
+            $.ajax({
+                url: `{{ url('/quiz-store') }}`,
+                method: "POST",
+                data: {
+                    majorId,
+                    subjectId,
+                    sessionId,
+                    questions ,
+                    answer
+                },
+                beforeSend: function(){
+                        swal({
+                            title:"", 
+                            text:"Loading...",
+                            icon: "https://www.boasnotas.com/img/loading2.gif",
+                            buttons: false,      
+                            closeOnClickOutside: false,
+                            timer: 3000,
+                            allowOutsideClick: false
+                        });
+                },
+                success: function(result) {
+                    swal("Berhasil!", "Data Berhasil Ditambahkan!", "success");
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+        });
+
+
+        function removeQuestion(e) {
+            e.preventDefault();
+            $(e.target).closest("#question").remove();
+            console.log(e.target)
+        }
+
+        function handleInputValue(e){
+            const element = e.target.previousElementSibling
+            element.value = e.target.textContent
+            console.log(element);
+        }
+        
+
+        $("body").on("click","#tambah-pertanyaan",handleTambahPertanyaan);
     </script>
 @endsection

@@ -150,12 +150,11 @@ class AssignmentController extends Controller
     public function checkupdate(Request $request,$id)
     {
         $response = Http::post('https://fe-integration-test.herokuapp.com/api/v1/assignment/lecturer/grade',[
-            "material_enrolled_id" => "cbd2ff3f-2019-4d05-9c60-488629af866c",
-            "student_id" => "cd11d046-43b4-11ed-b878-0242ac120002",
-            "score" => 65
+            "material_enrolled_id" => $id,
+            "student_id" => $request->student_id,
+            "score" => $request->score
         ]);
 
-        // dd($request->student_id);
         dd($response);
         try {
             MaterialEnrolled::where('id',$id)->update([
